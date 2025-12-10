@@ -1,0 +1,121 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Sale Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  @if (isLoading) {
+    <div class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Loading sale details...</p>
+    </div>
+  } @else if (sale) {
+    <div class="details-container">
+      <!-- Sale Header Card -->
+      <ion-card class="header-card">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="receipt-outline"></ion-icon>
+            Sale #{{ sale.id }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="total-amount">
+            <span class="total-label">Total</span>
+            <span class="total-value">{{ formatPrice(sale.total) }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Client Information -->
+      <ion-card class="info-card">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="person-outline"></ion-icon>
+            Client Information
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="info-item">
+            <span class="info-label">Client Name:</span>
+            <span class="info-value">{{ sale.clientName }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Client ID:</span>
+            <span class="info-value">{{ sale.clientId }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Sale Date -->
+      <ion-card class="info-card">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="calendar-outline"></ion-icon>
+            Sale Date
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="info-item">
+            <span class="info-value">{{ formatDate(sale.date) }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Items List -->
+      <ion-card class="items-card">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="receipt-outline"></ion-icon>
+            Items ({{ sale.items.length }})
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            @for (item of sale.items; track item.productId) {
+              <ion-item class="sale-item-row">
+                <ion-label>
+                  <div class="item-header">
+                    <h3>{{ item.productName }}</h3>
+                    <span class="item-total">{{ formatPrice(item.total) }}</span>
+                  </div>
+                  <div class="item-details">
+                    <span class="item-detail">Quantity: {{ item.quantity }}</span>
+                    <span class="item-detail">Unit Price: {{ formatPrice(item.unitPrice) }}</span>
+                    <span class="item-detail">Subtotal: {{ formatPrice(item.total) }}</span>
+                  </div>
+                </ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Summary Card -->
+      <ion-card class="summary-card">
+        <ion-card-content>
+          <div class="summary-row">
+            <span class="summary-label">Subtotal:</span>
+            <span class="summary-value">{{ formatPrice(sale.total) }}</span>
+          </div>
+          <div class="summary-row total-row">
+            <span class="summary-label">Total:</span>
+            <span class="summary-value">{{ formatPrice(sale.total) }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  } @else {
+    <div class="error-container">
+      <p>Sale not found</p>
+      <ion-button (click)="goBack()">
+        Back to Dashboard
+      </ion-button>
+    </div>
+  }
+</ion-content>
+

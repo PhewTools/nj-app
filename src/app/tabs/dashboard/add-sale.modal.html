@@ -1,0 +1,94 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>New Sale</ion-title>
+    <ion-button slot="end" fill="clear" (click)="cancel()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="modal-content">
+    <!-- Client Section -->
+    <ion-item>
+      <ion-label position="stacked">Client</ion-label>
+      <ion-select
+        [(ngModel)]="selectedClientId"
+        interface="popover"
+        placeholder="Select client">
+        @for (client of clients; track client.id) {
+          <ion-select-option [value]="client.id">
+            {{ client.name }} {{ client.lastname }}
+          </ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
+
+    <!-- Items Section -->
+    <div class="items-section">
+      <ion-label class="section-label">Items</ion-label>
+      
+      <div class="add-item-controls">
+        <ion-select
+          [(ngModel)]="selectedItemId"
+          interface="popover"
+          placeholder="Select product/service"
+          class="item-select">
+          @for (item of items; track item.id) {
+            <ion-select-option [value]="item.id">
+              {{ item.name }}
+            </ion-select-option>
+          }
+        </ion-select>
+        
+        <ion-input
+          [(ngModel)]="quantity"
+          type="number"
+          placeholder="Qty"
+          class="quantity-input"
+          min="1">
+        </ion-input>
+        
+        <ion-button (click)="addItem()" class="add-item-btn">
+          Add
+        </ion-button>
+      </div>
+
+      <!-- Added Items List -->
+      <div class="added-items">
+        @for (saleItem of saleItems; track $index) {
+          <ion-card class="sale-item-card">
+            <ion-card-content>
+              <div class="sale-item-info">
+                <div class="sale-item-details">
+                  <div class="sale-item-name">{{ saleItem.productName }}</div>
+                  <div class="sale-item-calculation">
+                    Qty: {{ saleItem.quantity }} x {{ formatPrice(saleItem.unitPrice) }} = {{ formatPrice(saleItem.total) }}
+                  </div>
+                </div>
+                <ion-icon name="trash" (click)="removeItem($index)" class="delete-item-icon"></ion-icon>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        }
+      </div>
+    </div>
+
+    <!-- Total Section -->
+    <div class="total-section">
+      <ion-label class="total-label">Total:</ion-label>
+      <span class="total-amount">{{ formatPrice(total) }}</span>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="modal-actions">
+      <ion-button expand="block" (click)="completeSale()" class="complete-button">
+        Save
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="cancel()" class="cancel-button">
+        Cancel
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
+

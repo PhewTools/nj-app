@@ -1,0 +1,66 @@
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="login-wrapper">
+    <div class="login-container">
+    <div class="login-header">
+      <h1>Welcome Back</h1>
+      <p>Sign in to continue</p>
+    </div>
+
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="login-form">
+      <ion-item lines="none" class="form-item">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input
+          type="email"
+          [(ngModel)]="credentials.email"
+          name="email"
+          placeholder="Enter your email"
+          required
+          [disabled]="isLoading"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="form-item">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input
+          [type]="showPassword ? 'text' : 'password'"
+          [(ngModel)]="credentials.password"
+          name="password"
+          placeholder="Enter your password"
+          required
+          [disabled]="isLoading"
+        ></ion-input>
+        <ion-button
+          fill="clear"
+          slot="end"
+          (click)="togglePassword()"
+          class="password-toggle"
+        >
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <div class="form-actions">
+        <ion-button
+          expand="block"
+          type="submit"
+          [disabled]="!loginForm.valid || isLoading"
+          class="login-button"
+        >
+          @if (isLoading) {
+            <ion-spinner name="crescent"></ion-spinner>
+          } @else {
+            <span>Sign In</span>
+          }
+        </ion-button>
+      </div>
+
+      @if (errorMessage) {
+        <div class="error-message">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
+    </form>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,115 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Dashboard
+    </ion-title>
+    <ion-select 
+      slot="end" 
+      [(ngModel)]="selectedMonth" 
+      (ionChange)="onMonthYearChange()"
+      interface="popover"
+      placeholder="Select Month">
+      @for (month of months; track month.value) {
+        <ion-select-option [value]="month.value">
+          {{ month.label }} {{ selectedYear }}
+        </ion-select-option>
+      }
+    </ion-select>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Dashboard</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="cash-outline"></ion-icon>
+          Revenue
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="stat-value">${{ stats.revenue.toFixed(2) }}</div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="cart-outline"></ion-icon>
+          Sales
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="stat-value">{{ stats.salesCount }}</div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="people-outline"></ion-icon>
+          Clients
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="stat-value">{{ stats.clientsCount }}</div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="cube-outline"></ion-icon>
+          Products
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="stat-value">{{ stats.productsCount }}</div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Sales by Day -->
+  <div class="sales-section">
+    <h2>Sales by Day</h2>
+    
+    @for (daySales of salesByDay; track daySales.date) {
+      <div class="day-group">
+        <div class="day-header">
+          <span class="day-date">{{ formatDate(daySales.date) }}</span>
+          <span class="day-total">${{ daySales.total.toFixed(2) }}</span>
+        </div>
+        
+        <ion-list>
+          @for (sale of daySales.sales; track sale.id) {
+            <ion-item class="sale-item" button (click)="viewSaleDetails(sale)">
+              <ion-label>
+                @for (item of sale.items; track item.productId; let last = $last) {
+                  {{ item.productName }}@if (!last) {, }
+                }
+              </ion-label>
+              <ion-label slot="end">
+                <span class="sale-price">${{ sale.total.toFixed(2) }}</span>
+              </ion-label>
+            </ion-item>
+          }
+        </ion-list>
+      </div>
+    }
+  </div>
+
+  <!-- Floating Action Button -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addSale()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

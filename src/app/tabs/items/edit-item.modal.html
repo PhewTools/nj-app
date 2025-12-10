@@ -1,0 +1,60 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Edit Item</ion-title>
+    <ion-button slot="end" fill="clear" (click)="cancel()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="modal-content">
+    <ion-item>
+      <ion-label position="stacked">Type</ion-label>
+      <ion-select
+        [(ngModel)]="item.type"
+        interface="popover"
+        placeholder="Select type">
+        <ion-select-option value="product">Product</ion-select-option>
+        <ion-select-option value="service">Service</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Name</ion-label>
+      <ion-input
+        [(ngModel)]="item.name"
+        type="text"
+        placeholder="Enter name">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Cost</ion-label>
+      <ion-input
+        [(ngModel)]="item.cost"
+        type="number"
+        placeholder="Enter price">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Description</ion-label>
+      <ion-textarea
+        [(ngModel)]="item.description"
+        placeholder="Enter description"
+        rows="4">
+      </ion-textarea>
+    </ion-item>
+
+    <div class="modal-actions">
+      <ion-button expand="block" (click)="save()" class="save-button">
+        Update Item
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="cancel()" class="cancel-button">
+        Cancel
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
+

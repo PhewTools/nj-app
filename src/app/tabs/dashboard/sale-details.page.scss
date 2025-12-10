@@ -1,0 +1,248 @@
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 2rem;
+  text-align: center;
+
+  p {
+    margin-top: 1rem;
+    color: #666;
+  }
+}
+
+.details-container {
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header-card {
+  margin-bottom: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  ion-card-header {
+    padding-bottom: 0.5rem;
+
+    ion-card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+
+      ion-icon {
+        font-size: 1.5rem;
+        color: var(--ion-color-primary);
+      }
+    }
+  }
+
+  .total-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+
+    .total-label {
+      font-size: 1rem;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .total-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--ion-color-primary);
+    }
+  }
+}
+
+.info-card {
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  ion-card-header {
+    padding-bottom: 0.5rem;
+
+    ion-card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #333;
+
+      ion-icon {
+        font-size: 1.25rem;
+        color: #666;
+      }
+    }
+  }
+
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      font-weight: 500;
+      color: #666;
+    }
+
+    .info-value {
+      font-weight: 600;
+      color: #333;
+    }
+  }
+}
+
+.items-card {
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  ion-card-header {
+    padding-bottom: 0.5rem;
+
+    ion-card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #333;
+
+      ion-icon {
+        font-size: 1.25rem;
+        color: #666;
+      }
+    }
+  }
+
+  ion-list {
+    background: transparent;
+    padding: 0;
+  }
+
+  .sale-item-row {
+    --padding-start: 0;
+    --padding-end: 0;
+    --inner-padding-end: 0;
+    --inner-padding-start: 0;
+    --background: transparent;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 1rem 0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+
+      h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .item-total {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--ion-color-primary);
+      }
+    }
+
+    .item-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      .item-detail {
+        font-size: 0.9rem;
+        color: #666;
+      }
+    }
+  }
+}
+
+.summary-card {
+  margin-top: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.total-row {
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+      border-top: 2px solid rgba(0, 0, 0, 0.1);
+
+      .summary-label,
+      .summary-value {
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+    }
+
+    .summary-label {
+      font-weight: 500;
+      color: #666;
+    }
+
+    .summary-value {
+      font-weight: 600;
+      color: #333;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 576px) {
+  .details-container {
+    padding: 0.5rem;
+  }
+
+  .header-card {
+    .total-amount {
+      .total-value {
+        font-size: 1.75rem;
+      }
+    }
+  }
+
+  .sale-item-row {
+    .item-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+}
+
+

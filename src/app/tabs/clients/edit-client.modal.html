@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Edit Client</ion-title>
+    <ion-button slot="end" fill="clear" (click)="cancel()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="modal-content">
+    <ion-item>
+      <ion-label position="stacked">Name</ion-label>
+      <ion-input
+        [(ngModel)]="client.name"
+        type="text"
+        placeholder="Enter name">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Last Name</ion-label>
+      <ion-input
+        [(ngModel)]="client.lastname"
+        type="text"
+        placeholder="Enter last name">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input
+        [(ngModel)]="client.email"
+        type="email"
+        placeholder="Enter email">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Birthdate</ion-label>
+      <ion-input
+        [(ngModel)]="client.birth_date"
+        type="date"
+        placeholder="Select birthdate">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Phone Number</ion-label>
+      <ion-input
+        [(ngModel)]="client.phone_number"
+        type="tel"
+        placeholder="Enter phone number">
+      </ion-input>
+    </ion-item>
+
+    <div class="modal-actions">
+      <ion-button expand="block" (click)="save()" class="save-button">
+        Update Client
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="cancel()" class="cancel-button">
+        Cancel
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
+
