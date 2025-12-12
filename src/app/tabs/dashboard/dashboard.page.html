@@ -91,12 +91,13 @@
           @for (sale of daySales.sales; track sale.id) {
             <ion-item class="sale-item" button (click)="viewSaleDetails(sale)">
               <ion-label>
-                @for (item of sale.items; track item.productId; let last = $last) {
-                  {{ item.productName }}@if (!last) {, }
-                }
+                {{ sale.client.name }} {{ sale.client.lastname}}
+                <!-- @for (item of sale.items; track item.id; let last = $last) {
+                  {{ item.name }}@if (!last) {, }
+                } -->
               </ion-label>
               <ion-label slot="end">
-                <span class="sale-price">${{ sale.total.toFixed(2) }}</span>
+                <span class="sale-price">${{ sale.total_cost.toFixed(2) }}</span>
               </ion-label>
             </ion-item>
           }

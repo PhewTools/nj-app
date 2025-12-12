@@ -26,7 +26,7 @@
         <ion-card-content>
           <div class="total-amount">
             <span class="total-label">Total</span>
-            <span class="total-value">{{ formatPrice(sale.total) }}</span>
+            <span class="total-value">{{ formatPrice(sale.total_cost) }}</span>
           </div>
         </ion-card-content>
       </ion-card>
@@ -42,11 +42,11 @@
         <ion-card-content>
           <div class="info-item">
             <span class="info-label">Client Name:</span>
-            <span class="info-value">{{ sale.clientName }}</span>
+            <span class="info-value">{{ sale.client.name }} {{ sale.client.lastname }}</span>
           </div>
           <div class="info-item">
             <span class="info-label">Client ID:</span>
-            <span class="info-value">{{ sale.clientId }}</span>
+            <span class="info-value">{{ sale.client.id }}</span>
           </div>
         </ion-card-content>
       </ion-card>
@@ -76,16 +76,16 @@
         </ion-card-header>
         <ion-card-content>
           <ion-list>
-            @for (item of sale.items; track item.productId) {
+            @for (item of sale.items; track item.id) {
               <ion-item class="sale-item-row">
                 <ion-label>
                   <div class="item-header">
-                    <h3>{{ item.productName }}</h3>
+                    <h3>{{ item.name }}</h3>
                     <span class="item-total">{{ formatPrice(item.total) }}</span>
                   </div>
                   <div class="item-details">
                     <span class="item-detail">Quantity: {{ item.quantity }}</span>
-                    <span class="item-detail">Unit Price: {{ formatPrice(item.unitPrice) }}</span>
+                    <span class="item-detail">Unit Price: {{ formatPrice(item.cost) }}</span>
                     <span class="item-detail">Subtotal: {{ formatPrice(item.total) }}</span>
                   </div>
                 </ion-label>
@@ -100,11 +100,11 @@
         <ion-card-content>
           <div class="summary-row">
             <span class="summary-label">Subtotal:</span>
-            <span class="summary-value">{{ formatPrice(sale.total) }}</span>
+            <span class="summary-value">{{ formatPrice(sale.total_cost) }}</span>
           </div>
           <div class="summary-row total-row">
             <span class="summary-label">Total:</span>
-            <span class="summary-value">{{ formatPrice(sale.total) }}</span>
+            <span class="summary-value">{{ formatPrice(sale.total_cost) }}</span>
           </div>
         </ion-card-content>
       </ion-card>

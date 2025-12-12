@@ -53,6 +53,14 @@
         placeholder="Enter phone number">
       </ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Address</ion-label>
+      <ion-input
+        [(ngModel)]="client.address"
+        type="text"
+        placeholder="Enter address">
+      </ion-input>
+    </ion-item>
 
     <div class="modal-actions">
       <ion-button expand="block" (click)="save()" class="save-button">

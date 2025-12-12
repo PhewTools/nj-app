@@ -33,7 +33,8 @@ export class EditClientModal implements OnInit {
     lastname: '',
     email: '',
     birth_date: '',
-    phone_number: ''
+    phone_number: '',
+    address: ''
   };
 
   constructor(private modalController: ModalController) {
@@ -47,7 +48,8 @@ export class EditClientModal implements OnInit {
         lastname: this.clientData.lastname || '',
         email: this.clientData.email || '',
         birth_date: this.clientData.birth_date || '',
-        phone_number: this.clientData.phone_number || ''
+        phone_number: this.clientData.phone_number || '',
+        address: this.clientData.address || ''
       };
     }
   }

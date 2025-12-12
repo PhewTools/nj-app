@@ -9,11 +9,13 @@ import { ClientsService } from 'src/app/services/clients.service';
 import { ItemService } from 'src/app/services/item.service';
 
 interface SaleItemInput {
-  productId: string;
-  productName: string;
+  id: string;
+  name: string;
+  type: string;
   quantity: number;
-  unitPrice: number;
+  cost: number;
   total: number;
+  description: string;
 }
 
 @Component({
@@ -86,85 +88,6 @@ export class AddSaleModal implements OnInit {
     });
   }
 
-  loadMockData() {
-    // Mock clients data
-    this.clients = [
-      {
-        id: '1',
-        name: 'John',
-        lastname: 'Doe',
-        email: 'john.doe@example.com',
-        phonenumber: '555-0101'
-      },
-      {
-        id: '2',
-        name: 'Jane',
-        lastname: 'Smith',
-        email: 'jane.smith@example.com',
-        phonenumber: '555-0102'
-      },
-      {
-        id: '3',
-        name: 'Michael',
-        lastname: 'Johnson',
-        email: 'michael.johnson@example.com',
-        phonenumber: '555-0103'
-      },
-      {
-        id: '4',
-        name: 'Emily',
-        lastname: 'Williams',
-        email: 'emily.williams@example.com',
-        phonenumber: '555-0104'
-      }
-    ];
-
-    // Mock items data
-    this.items = [
-      {
-        id: '1',
-        name: 'item',
-        type: 'product',
-        price: 12.00,
-        description: 'someitem'
-      },
-      {
-        id: '2',
-        name: 'cejas',
-        type: 'service',
-        price: 200.00
-      },
-      {
-        id: '3',
-        name: 'Haircut',
-        type: 'service',
-        price: 50.00,
-        description: 'Professional haircut service'
-      },
-      {
-        id: '4',
-        name: 'Shampoo',
-        type: 'product',
-        price: 15.99,
-        description: 'Premium hair shampoo'
-      },
-      {
-        id: '5',
-        name: 'Hair Color',
-        type: 'service',
-        price: 120.00,
-        description: 'Full hair coloring service'
-      },
-      {
-        id: '6',
-        name: 'Hair Treatment',
-        type: 'service',
-        price: 80.00,
-        description: 'Deep conditioning treatment'
-      }
-    ];
-  }
-
   getClientName(clientId: string): string {
     const client = this.clients.find(c => c.id === clientId);
     return client ? `${client.name} ${client.lastname}` : '';
@@ -184,10 +107,12 @@ export class AddSaleModal implements OnInit {
     if (!item) return;
 
     const saleItem: SaleItemInput = {
-      productId: item.id,
-      productName: item.name,
+      id: item.id,
+      name: item.name,
+      description: item.description,
+      type: item.type,
       quantity: this.quantity,
-      unitPrice: item.cost,
+      cost: item.cost,
       total: this.quantity * item.cost
     };
 
@@ -221,13 +146,12 @@ export class AddSaleModal implements OnInit {
     if (!client) return;
 
     const saleData = {
-      date: new Date().toISOString().split('T')[0],
-      clientId: this.selectedClientId,
-      clientName: `${client.name} ${client.lastname}`,
+      client_id: this.selectedClientId,
       items: this.saleItems,
-      total: this.total
+      total_cost: this.total
     };
 
+    console.log(saleData);
     this.modalController.dismiss(saleData, 'confirm');
   }
 

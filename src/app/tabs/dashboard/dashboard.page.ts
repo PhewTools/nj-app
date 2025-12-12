@@ -19,6 +19,7 @@ export class DashboardPage implements OnInit {
   selectedYear = new Date().getFullYear();
   stats: DashboardStats = { revenue: 0, salesCount: 0, clientsCount: 0, productsCount: 0 };
   salesByDay: SalesByDay[] = [];
+  sales: Sale[] = [];
 
   months = [
     { value: 1, label: 'January' },
@@ -68,99 +69,13 @@ export class DashboardPage implements OnInit {
 
     // Load sales by day
     this.salesService.getSalesByMonth(this.selectedMonth, this.selectedYear).subscribe({
-      next: (sales) => {
-        this.salesByDay = sales;
+      next: (sales: Sale[]) => {
+        this.sales = sales;
+        this.salesByDay = this.salesService.sortSalesByDate(sales);
       },
       error: (error) => {
         console.error('Error loading sales:', error);
         // Use mock data for now
-        this.salesByDay = [
-          {
-            date: '2025-01-15',
-            total: 81.98,
-            sales: [
-              { 
-                id: '1', 
-                date: '2025-01-15T10:30:00', 
-                clientId: '1',
-                clientName: 'John Doe',
-                items: [
-                  { productId: '1', productName: 'Haircut', quantity: 1, unitPrice: 50.00, total: 50.00 },
-                  { productId: '2', productName: 'Shampoo', quantity: 2, unitPrice: 15.99, total: 31.98 }
-                ], 
-                total: 81.98 
-              }
-            ]
-          },
-          {
-            date: '2025-01-16',
-            total: 165.00,
-            sales: [
-              { 
-                id: '2', 
-                date: '2025-01-16T14:20:00', 
-                clientId: '2',
-                clientName: 'Jane Smith',
-                items: [
-                  { productId: '3', productName: 'Hair Color', quantity: 1, unitPrice: 120.00, total: 120.00 },
-                  { productId: '4', productName: 'Hair Treatment', quantity: 1, unitPrice: 45.00, total: 45.00 }
-                ], 
-                total: 165.00 
-              }
-            ]
-          },
-          {
-            date: '2025-01-17',
-            total: 50.00,
-            sales: [
-              { 
-                id: '3', 
-                date: '2025-01-17T09:15:00', 
-                clientId: '3',
-                clientName: 'Michael Johnson',
-                items: [
-                  { productId: '1', productName: 'Haircut', quantity: 1, unitPrice: 50.00, total: 50.00 }
-                ], 
-                total: 50.00 
-              }
-            ]
-          },
-          {
-            date: '2025-01-18',
-            total: 109.98,
-            sales: [
-              { 
-                id: '4', 
-                date: '2025-01-18T16:45:00', 
-                clientId: '4',
-                clientName: 'Emily Williams',
-                items: [
-                  { productId: '5', productName: 'Hair Styling', quantity: 1, unitPrice: 75.00, total: 75.00 },
-                  { productId: '2', productName: 'Shampoo', quantity: 1, unitPrice: 15.99, total: 15.99 },
-                  { productId: '6', productName: 'Conditioner', quantity: 1, unitPrice: 18.99, total: 18.99 }
-                ], 
-                total: 109.98 
-              }
-            ]
-          },
-          {
-            date: '2025-01-19',
-            total: 75.00,
-            sales: [
-              { 
-                id: '5', 
-                date: '2025-01-19T11:00:00', 
-                clientId: '5',
-                clientName: 'David Brown',
-                items: [
-                  { productId: '1', productName: 'Haircut', quantity: 1, unitPrice: 50.00, total: 50.00 },
-                  { productId: '7', productName: 'Beard Trim', quantity: 1, unitPrice: 25.00, total: 25.00 }
-                ], 
-                total: 75.00 
-              }
-            ]
-          }
-        ];
       }
     });
   }
@@ -170,7 +85,6 @@ export class DashboardPage implements OnInit {
   }
 
   formatDate(dateString: string): string {
-    console.log(dateString);
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
       weekday: 'short', 

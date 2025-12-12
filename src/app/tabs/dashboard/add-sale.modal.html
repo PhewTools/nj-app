@@ -61,9 +61,9 @@
             <ion-card-content>
               <div class="sale-item-info">
                 <div class="sale-item-details">
-                  <div class="sale-item-name">{{ saleItem.productName }}</div>
+                  <div class="sale-item-name">{{ saleItem.name }}</div>
                   <div class="sale-item-calculation">
-                    Qty: {{ saleItem.quantity }} x {{ formatPrice(saleItem.unitPrice) }} = {{ formatPrice(saleItem.total) }}
+                    Qty: {{ saleItem.quantity }} x {{ formatPrice(saleItem.cost) }} = {{ formatPrice(saleItem.total) }}
                   </div>
                 </div>
                 <ion-icon name="trash" (click)="removeItem($index)" class="delete-item-icon"></ion-icon>
