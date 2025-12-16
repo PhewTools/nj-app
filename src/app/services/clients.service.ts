@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpService } from '../shared/http.service';
+import { Client } from '../tabs/clients/clients.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -10,20 +11,20 @@ export class ClientsService {
 
   constructor(private http: HttpService) {}
 
-  getClients(params?: any): Observable<any> {
-    return this.http.get<any>(this.baseUrl, params);
+  getClients(params?: any): Observable<Client[]> {
+    return this.http.get<Client[]>(this.baseUrl, params);
   }
 
   getClientById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${id}`);
+    return this.http.get<Client>(`${this.baseUrl}/${id}`);
   }
 
-  createClient(client: any): Observable<any> {
-    return this.http.post<any>(this.baseUrl, client);
+  createClient(client: Omit<Client, 'id'>): Observable<any> {
+    return this.http.post<Omit<Client, 'id'>>(this.baseUrl, client);
   }
 
-  updateClient(id: string, client: any): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/${id}`, client);
+  updateClient(id: string, client: Omit<Client, 'id'>): Observable<any> {
+    return this.http.put<Omit<Client, 'id'>>(`${this.baseUrl}/${id}`, client);
   }
 
   deleteClient(id: number): Observable<any> {

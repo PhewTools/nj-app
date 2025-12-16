@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
   private defaultHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
-  private baseUrl = "http://localhost:3000"
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
