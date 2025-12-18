@@ -1,0 +1,41 @@
+# Dependencies
+node_modules
+npm-debug.log
+package-lock.json
+
+# Build outputs
+www
+dist
+.angular
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Testing
+coverage
+.nyc_output
+
+# Environment files (optional - remove if you want to include them)
+.env
+.env.local
+
+# Capacitor
+ios
+android
+.capacitor
+
+# Other
+*.log
+.cache

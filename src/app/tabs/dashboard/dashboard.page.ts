@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { SalesService, DashboardStats, SalesByDay, Sale } from '../../services/sales.service';
 import { ModalController } from '@ionic/angular/standalone';
 import { AddSaleModal } from './add-sale.modal';
+import { formatDate } from '../../shared/utils';
 
 @Component({
   selector: 'app-dashboard',
@@ -56,8 +57,6 @@ export class DashboardPage implements OnInit {
         this.stats = stats;
       },
       error: (error) => {
-        console.error('Error loading dashboard stats:', error);
-        // Use mock data for now
         this.stats = { 
           revenue: 481.96, 
           salesCount: 5, 
@@ -75,7 +74,6 @@ export class DashboardPage implements OnInit {
       },
       error: (error) => {
         console.error('Error loading sales:', error);
-        // Use mock data for now
       }
     });
   }
@@ -85,12 +83,7 @@ export class DashboardPage implements OnInit {
   }
 
   formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      weekday: 'short', 
-      month: 'short', 
-      day: 'numeric' 
-    });
+    return formatDate(dateString);
   }
 
   getMonthLabel(): string {
@@ -110,9 +103,7 @@ export class DashboardPage implements OnInit {
     if (role === 'confirm' && data) {
       // Create the sale
       this.salesService.createSale(data).subscribe({
-        next: (sale) => {
-          console.log('Sale created:', sale);
-          // Reload dashboard data
+        next: () => {
           this.loadDashboardData();
         },
         error: (error) => {

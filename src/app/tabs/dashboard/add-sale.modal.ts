@@ -151,7 +151,6 @@ export class AddSaleModal implements OnInit {
       total_cost: this.total
     };
 
-    console.log(saleData);
     this.modalController.dismiss(saleData, 'confirm');
   }
 

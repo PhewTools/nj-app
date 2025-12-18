@@ -22,6 +22,7 @@ import { CommonModule } from '@angular/common';
 import { SalesService, Sale } from '../../services/sales.service';
 import { addIcons } from 'ionicons';
 import { arrowBack, personOutline, calendarOutline, receiptOutline, cashOutline } from 'ionicons/icons';
+import { formatDateTime } from '../../shared/utils';
 
 @Component({
   selector: 'app-sale-details',
@@ -107,16 +108,7 @@ export class SaleDetailsPage implements OnInit {
   }
 
   formatDate(dateString: string): string {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return formatDateTime(dateString);
   }
 
   formatPrice(price: number): string {

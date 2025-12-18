@@ -35,7 +35,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/tabs/dashboard',
+    redirectTo: '/login',
     pathMatch: 'full',
   },
 ];

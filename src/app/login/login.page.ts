@@ -15,6 +15,10 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { eyeOutline, eyeOffOutline, alertCircleOutline } from 'ionicons/icons';
+import { LoginService } from '../services/login.service';
+import { AuthService } from '../services/auth.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -46,7 +50,9 @@ export class LoginPage implements OnInit {
   constructor(
     private router: Router,
     private toastController: ToastController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private loginService: LoginService,
+    private authService: AuthService
   ) {
     addIcons({ eyeOutline, eyeOffOutline, alertCircleOutline });
   }
@@ -67,40 +73,40 @@ export class LoginPage implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
 
-    try {
-      // TODO: Implement actual login logic with HttpService
-      // For now, simulate login
-      await this.simulateLogin();
-      
-      const toast = await this.toastController.create({
-        message: 'Login successful!',
-        duration: 2000,
-        color: 'success',
-        position: 'top'
-      });
-      await toast.present();
+    this.loginService.login(this.credentials.email, this.credentials.password)
+      .pipe(
+        catchError((error) => {
+          const errorMessage = error.error?.message || error.message || 'Login failed. Please try again.';
+          return of({ error: errorMessage });
+        })
+      )
+      .subscribe({
+        next: (response: any) => {
+          if (response.error) {
+            this.errorMessage = response.error;
+            this.isLoading = false;
+            return;
+          }
 
-      // Navigate to tabs after successful login
-      this.router.navigate(['/tabs/dashboard']);
-    } catch (error: any) {
-      this.errorMessage = error.message || 'Login failed. Please try again.';
-    } finally {
-      this.isLoading = false;
-    }
-  }
+          // Store authentication data
+          this.authService.setAuth(response);
 
-  private async simulateLogin(): Promise<void> {
-    // Simulate API call
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // For demo purposes, accept any email/password
-        // In production, replace this with actual API call
-        if (this.credentials.email && this.credentials.password) {
-          resolve();
-        } else {
-          reject(new Error('Invalid credentials'));
+          // Show success message
+          this.toastController.create({
+            message: 'Login successful!',
+            duration: 2000,
+            color: 'success',
+            position: 'top'
+          }).then(toast => toast.present());
+
+          // Navigate to tabs after successful login
+          this.router.navigate(['/tabs/dashboard']);
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.errorMessage = error.error?.message || error.message || 'Login failed. Please try again.';
+          this.isLoading = false;
         }
-      }, 1500);
-    });
+      });
   }
 }
