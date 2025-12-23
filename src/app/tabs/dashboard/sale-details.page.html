@@ -108,6 +108,14 @@
           </div>
         </ion-card-content>
       </ion-card>
+
+      <!-- Delete Button -->
+      <div class="delete-button-container">
+        <ion-button expand="block" fill="outline" color="danger" class="delete-button" (click)="deleteSale()">
+          <ion-icon name="trash-outline" slot="start"></ion-icon>
+          Delete Sale
+        </ion-button>
+      </div>
     </div>
   } @else {
     <div class="error-container">

@@ -50,6 +50,10 @@ export class DashboardPage implements OnInit {
     this.loadDashboardData();
   }
 
+  ionViewWillEnter(){
+    this.loadDashboardData();
+  }
+
   loadDashboardData() {
     // Load stats
     this.salesService.getDashboardStats(this.selectedMonth, this.selectedYear).subscribe({
@@ -57,12 +61,7 @@ export class DashboardPage implements OnInit {
         this.stats = stats;
       },
       error: (error) => {
-        this.stats = { 
-          revenue: 481.96, 
-          salesCount: 5, 
-          clientsCount: 5, 
-          productsCount: 7 
-        };
+        console.error('Error loading stats:', error);
       }
     });
 

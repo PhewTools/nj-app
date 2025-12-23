@@ -21,7 +21,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { SalesService, Sale } from '../../services/sales.service';
 import { addIcons } from 'ionicons';
-import { arrowBack, personOutline, calendarOutline, receiptOutline, cashOutline } from 'ionicons/icons';
+import { arrowBack, personOutline, calendarOutline, receiptOutline, cashOutline, trashOutline } from 'ionicons/icons';
 import { formatDateTime } from '../../shared/utils';
 
 @Component({
@@ -59,7 +59,7 @@ export class SaleDetailsPage implements OnInit {
   private _router: Router = inject(Router);
 
   constructor() {
-    addIcons({ arrowBack, personOutline, calendarOutline, receiptOutline, cashOutline });
+    addIcons({ arrowBack, personOutline, calendarOutline, receiptOutline, cashOutline, trashOutline });
   }
 
   ngOnInit() {
@@ -118,5 +118,15 @@ export class SaleDetailsPage implements OnInit {
   goBack() {
     this._router.navigate(['/tabs/dashboard']);
   }
+  deleteSale(){
+    if (!this.saleId) return;
+    this._salesService.deleteSale(this.saleId).subscribe({
+      next: () => {
+        this._router.navigate(['/tabs/dashboard']);
+      },
+      error: (error) => {
+        console.error('Error deleting sale:', error);
+      }
+    });
+  }
 }
-

@@ -1,12 +1,16 @@
 <ion-content [fullscreen]="true" class="login-content">
   <div class="login-wrapper">
     <div class="login-container">
-    <div class="login-header">
-      <h1>Welcome Back</h1>
-      <p>Sign in to continue</p>
-    </div>
+      <div class="logo-container">
+        <img src="assets/logo.jpeg" alt="NJ Beauty Studio Logo" class="logo">
+      </div>
 
-    <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="login-form">
+      <div class="login-header">
+        <h1>Welcome Back</h1>
+        <p>Sign in to continue</p>
+      </div>
+
+      <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="login-form">
       <ion-item lines="none" class="form-item">
         <ion-label position="stacked">Email</ion-label>
         <ion-input

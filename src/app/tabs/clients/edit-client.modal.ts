@@ -41,6 +41,23 @@ export class EditClientModal implements OnInit {
     addIcons({ close });
   }
 
+  private formatPhoneNumberString(phoneNumber: string): string {
+    if (!phoneNumber) return '';
+    let value = phoneNumber.replace(/\D/g, ''); // Remove all non-digits
+    if (value.length > 10) {
+      value = value.substring(0, 10); // Limit to 10 digits
+    }
+    
+    // Format as ###-###-####
+    if (value.length > 6) {
+      value = value.substring(0, 3) + '-' + value.substring(3, 6) + '-' + value.substring(6);
+    } else if (value.length > 3) {
+      value = value.substring(0, 3) + '-' + value.substring(3);
+    }
+    
+    return value;
+  }
+
   ngOnInit() {
     if (this.clientData) {
       this.client = {
@@ -48,7 +65,7 @@ export class EditClientModal implements OnInit {
         lastname: this.clientData.lastname || '',
         email: this.clientData.email || '',
         birth_date: this.clientData.birth_date || '',
-        phone_number: this.clientData.phone_number || '',
+        phone_number: this.formatPhoneNumberString(this.clientData.phone_number || ''),
         address: this.clientData.address || ''
       };
     }
@@ -56,6 +73,23 @@ export class EditClientModal implements OnInit {
 
   cancel() {
     this.modalController.dismiss(null, 'cancel');
+  }
+
+  formatPhoneNumber(event: any) {
+    let value = event.target.value.replace(/\D/g, ''); // Remove all non-digits
+    if (value.length > 10) {
+      value = value.substring(0, 10); // Limit to 10 digits
+    }
+    
+    // Format as ###-###-####
+    if (value.length > 6) {
+      value = value.substring(0, 3) + '-' + value.substring(3, 6) + '-' + value.substring(6);
+    } else if (value.length > 3) {
+      value = value.substring(0, 3) + '-' + value.substring(3);
+    }
+    
+    this.client.phone_number = value;
+    event.target.value = value;
   }
 
   save() {

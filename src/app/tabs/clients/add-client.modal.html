@@ -14,6 +14,7 @@
       <ion-input
         [(ngModel)]="client.name"
         type="text"
+        pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
         placeholder="Enter name">
       </ion-input>
     </ion-item>
@@ -32,7 +33,9 @@
       <ion-input
         [(ngModel)]="client.email"
         type="email"
-        placeholder="Enter email">
+        placeholder="Enter email"
+        email
+        >
       </ion-input>
     </ion-item>
 
@@ -50,7 +53,9 @@
       <ion-input
         [(ngModel)]="client.phone_number"
         type="tel"
-        placeholder="Enter phone number">
+        placeholder="###-###-####"
+        maxlength="12"
+        (ionInput)="formatPhoneNumber($event)">
       </ion-input>
     </ion-item>
 

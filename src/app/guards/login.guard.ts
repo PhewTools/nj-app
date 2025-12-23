@@ -15,4 +15,3 @@ export const loginGuard: CanActivateFn = (route, state) => {
   // Allow access to login page if not authenticated
   return true;
 };
-
