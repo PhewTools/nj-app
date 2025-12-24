@@ -48,6 +48,13 @@
           class="quantity-input"
           min="1">
         </ion-input>
+        <ion-input
+          [(ngModel)]="discount"
+          type="number"
+          placeholder="Disc"
+          class="quantity-input"
+          min="0">
+        </ion-input>
         
         <ion-button (click)="addItem()" class="add-item-btn">
           Add
@@ -63,7 +70,7 @@
                 <div class="sale-item-details">
                   <div class="sale-item-name">{{ saleItem.name }}</div>
                   <div class="sale-item-calculation">
-                    Qty: {{ saleItem.quantity }} x {{ formatPrice(saleItem.cost) }} = {{ formatPrice(saleItem.total) }}
+                    Qty: {{ saleItem.quantity }} x {{ formatPrice(saleItem.cost) }} - {{ saleItem.discount || 0 }}% = {{ formatPrice(saleItem.total) }}
                   </div>
                 </div>
                 <ion-icon name="trash" (click)="removeItem($index)" class="delete-item-icon"></ion-icon>

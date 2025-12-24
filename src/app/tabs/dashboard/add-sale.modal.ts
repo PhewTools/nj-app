@@ -15,6 +15,7 @@ interface SaleItemInput {
   quantity: number;
   cost: number;
   total: number;
+  discount: number;
   description: string;
 }
 
@@ -52,6 +53,7 @@ export class AddSaleModal implements OnInit {
   selectedClientId: string = '';
   selectedItemId: string = '';
   quantity: number = 1;
+  discount: number = 0;
   
   saleItems: SaleItemInput[] = [];
   total: number = 0;
@@ -113,7 +115,8 @@ export class AddSaleModal implements OnInit {
       type: item.type,
       quantity: this.quantity,
       cost: item.cost,
-      total: this.quantity * item.cost
+      discount: this.discount,
+      total: this.quantity * item.cost - (item.cost * this.quantity * this.discount / 100)
     };
 
     this.saleItems.push(saleItem);
@@ -122,6 +125,7 @@ export class AddSaleModal implements OnInit {
     // Reset form
     this.selectedItemId = '';
     this.quantity = 1;
+    this.discount = 0;
   }
 
   removeItem(index: number) {
