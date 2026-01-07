@@ -58,13 +58,27 @@ export class EditClientModal implements OnInit {
     return value;
   }
 
+  private formatDateForInput(dateString: string): string {
+    if (!dateString) return '';
+    
+    // Extract date part (YYYY-MM-DD) from datetime string if present
+    // Handles formats like: YYYY-MM-DD, YYYY-MM-DDTHH:mm:ss, YYYY-MM-DDTHH:mm:ss.sssZ
+    if (dateString.includes('T')) {
+      return dateString.split('T')[0];
+    }
+    
+    // If already in YYYY-MM-DD format, return as is
+    return dateString;
+  }
+
   ngOnInit() {
     if (this.clientData) {
+      console.log(this.clientData);
       this.client = {
         name: this.clientData.name || '',
         lastname: this.clientData.lastname || '',
         email: this.clientData.email || '',
-        birth_date: this.clientData.birth_date || '',
+        birth_date: this.formatDateForInput(this.clientData.birth_date || ''),
         phone_number: this.formatPhoneNumberString(this.clientData.phone_number || ''),
         address: this.clientData.address || ''
       };

@@ -16,7 +16,8 @@ import {
   IonList,
   IonBackButton,
   IonButtons,
-  IonSpinner
+  IonSpinner,
+  AlertController
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { SalesService, Sale } from '../../services/sales.service';
@@ -57,6 +58,7 @@ export class SaleDetailsPage implements OnInit {
   private _salesService: SalesService = inject(SalesService);
   private _route: ActivatedRoute = inject(ActivatedRoute);
   private _router: Router = inject(Router);
+  private _alertController: AlertController = inject(AlertController);
 
   constructor() {
     addIcons({ arrowBack, personOutline, calendarOutline, receiptOutline, cashOutline, trashOutline });
@@ -69,7 +71,7 @@ export class SaleDetailsPage implements OnInit {
       this.loadSaleDetails();
     } else {
       // If no ID, try to get sale from state (if navigated with state)
-      const navigation = this._router.getCurrentNavigation();
+      const navigation = this._router.currentNavigation();
       if (navigation?.extras?.state?.['sale']) {
         this.sale = navigation.extras.state['sale'];
         this.isLoading = false;
@@ -118,15 +120,36 @@ export class SaleDetailsPage implements OnInit {
   goBack() {
     this._router.navigate(['/tabs/dashboard']);
   }
-  deleteSale(){
+  async deleteSale() {
     if (!this.saleId) return;
-    this._salesService.deleteSale(this.saleId).subscribe({
-      next: () => {
-        this._router.navigate(['/tabs/dashboard']);
-      },
-      error: (error) => {
-        console.error('Error deleting sale:', error);
-      }
+
+    const alert = await this._alertController.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure you want to delete this sale? This action cannot be undone.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary'
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          cssClass: 'danger',
+          handler: () => {
+            this._salesService.deleteSale(this.saleId!).subscribe({
+              next: () => {
+                this._router.navigate(['/tabs/dashboard']);
+              },
+              error: (error) => {
+                console.error('Error deleting sale:', error);
+              }
+            });
+          }
+        }
+      ]
     });
+
+    await alert.present();
   }
 }
