@@ -3,7 +3,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonSele
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ClientsService } from '../../services/clients.service';
-import { ModalController } from '@ionic/angular/standalone';
+import { ModalController, AlertController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add, pencil, trash } from 'ionicons/icons';
 import { AddClientModal } from './add-client.modal';
@@ -36,6 +36,7 @@ export class ClientsPage {
 
   private _clientsService: ClientsService = inject(ClientsService);
   private _modalController: ModalController = inject(ModalController);
+  private _alertController: AlertController = inject(AlertController);
   
   constructor(){
     addIcons({ add, pencil, trash });
@@ -191,16 +192,34 @@ export class ClientsPage {
     }
   }
 
-  deleteClient(id: number) {
-    this._clientsService.deleteClient(id).subscribe({
-      next: () => {
-        this.getAllClients();
-      },
-      error: (error) => {
-        console.error('Error deleting client:', error);
-        this.getAllClients();
-      }
+  async deleteClient(id: number) {
+    const alert = await this._alertController.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure you want to delete this client? This action cannot be undone.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this._clientsService.deleteClient(id).subscribe({
+              next: () => {
+                this.getAllClients();
+              },
+              error: (error) => {
+                console.error('Error deleting client:', error);
+                this.getAllClients();
+              }
+            });
+          }
+        }
+      ]
     });
+
+    await alert.present();
   }
 
   formatDate(dateString: string): string {
