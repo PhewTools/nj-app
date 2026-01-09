@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonItem, IonLabel, IonInput, IonIcon, IonSelect, IonSelectOption, IonCard, IonCardContent } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonItem, IonLabel, IonInput, IonIcon, IonSelect, IonSelectOption, IonCard, IonCardContent, IonSearchbar } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ModalController } from '@ionic/angular/standalone';
@@ -40,7 +40,7 @@ interface SaleItemInput {
     IonCardContent,
     FormsModule,
     CommonModule
-  ]
+]
 })
 export class AddSaleModal implements OnInit {
   

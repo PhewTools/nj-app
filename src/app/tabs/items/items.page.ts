@@ -3,7 +3,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonSearchbar, IonIcon, Ion
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ItemService } from '../../services/item.service';
-import { ModalController, AlertController } from '@ionic/angular/standalone';
+import { ModalController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add, pencil, trash } from 'ionicons/icons';
 import { AddItemModal } from './add-item.modal';
@@ -37,7 +37,6 @@ export class ItemsPage {
 
   private _itemService: ItemService = inject(ItemService);
   private _modalController: ModalController = inject(ModalController);
-  private _alertController: AlertController = inject(AlertController);
 
   constructor() {
     addIcons({ add, pencil, trash });
@@ -171,33 +170,15 @@ export class ItemsPage {
     }
   }
 
-  async deleteItem(item: Item) {
-    const alert = await this._alertController.create({
-      header: 'Confirm Delete',
-      message: `Are you sure you want to delete "${item.name}"? This action cannot be undone.`,
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        },
-        {
-          text: 'Delete',
-          role: 'destructive',
-          handler: () => {
-            this._itemService.deleteItem(item.id).subscribe({
-              next: () => {
-                this.getAllItems();
-              },
-              error: (error) => {
-                console.error('Error deleting item:', error);
-              }
-            });
-          }
-        }
-      ]
+  deleteItem(item: Item) {
+    this._itemService.deleteItem(item.id).subscribe({
+      next: () => {
+        this.getAllItems();
+      },
+      error: (error) => {
+        console.error('Error deleting item:', error);
+      }
     });
-
-    await alert.present();
   }
 
   formatPrice(cost: number): string {
