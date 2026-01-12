@@ -1,0 +1,43 @@
+<div class="dropdown-search-container">
+  <div class="dropdown-input-container" (click)="toggleDropdown()">
+    <ion-input
+      type="text"
+      [(ngModel)]="searchTerm"
+      [placeholder]="selectedOption ? getSelectedDisplayValue() : placeholder"
+      (focus)="onInputFocus()"
+      (ngModelChange)="onSearchChange()"
+      class="dropdown-input">
+    </ion-input>
+    <ion-icon
+      [name]="isDropdownOpen ? 'chevron-up' : 'chevron-down'"
+      class="dropdown-icon"
+      (click)="toggleDropdown(); $event.stopPropagation()">
+    </ion-icon>
+    @if (selectedOption && allowClear) {
+      <ion-icon
+        name="close-circle"
+        class="clear-icon"
+        (click)="clearSelection(); $event.stopPropagation()">
+      </ion-icon>
+    }
+  </div>
+
+  @if (isDropdownOpen) {
+    <div class="dropdown-list-container">
+      <ion-list class="dropdown-list">
+        @for (option of filteredOptions; track option[valueField] || option.id || $index) {
+          <ion-item
+            (click)="selectOption(option)"
+            [class.selected]="selectedOption && selectedOption[valueField] === option[valueField]">
+            {{ getDisplayValue(option) }}
+          </ion-item>
+        }
+        @if (filteredOptions.length === 0) {
+          <ion-item disabled>
+            No results found
+          </ion-item>
+        }
+      </ion-list>
+    </div>
+  }
+</div>

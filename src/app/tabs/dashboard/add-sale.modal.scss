@@ -51,18 +51,6 @@ ion-item {
   align-items: flex-end;
 }
 
-.item-select {
-  flex: 1;
-  --padding-start: 12px;
-  --padding-end: 12px;
-  --padding-top: 12px;
-  --padding-bottom: 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  background: #f9f9f9;
-  --placeholder-opacity: 1;
-  min-width: 0;
-}
 
 .quantity-input {
   width: 80px;
@@ -201,3 +189,28 @@ ion-header {
   }
 }
 
+/* Dropdown wrapper to ensure proper positioning */
+.dropdown-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.dropdown-wrapper ion-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ion-color-medium);
+}
+
+/* Products dropdown specific styling */
+.products-dropdown {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.products-dropdown app-dropdown-search {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #f9f9f9;
+}

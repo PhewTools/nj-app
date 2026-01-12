@@ -10,36 +10,35 @@
 <ion-content [fullscreen]="true">
   <div class="modal-content">
     <!-- Client Section -->
-    <ion-item>
+    <div class="dropdown-wrapper">
       <ion-label position="stacked">Client</ion-label>
-      <ion-select
-        [(ngModel)]="selectedClientId"
-        interface="popover"
-        placeholder="Select client">
-        @for (client of clients; track client.id) {
-          <ion-select-option [value]="client.id">
-            {{ client.name }} {{ client.lastname }}
-          </ion-select-option>
-        }
-      </ion-select>
-    </ion-item>
+      <app-dropdown-search
+        [options]="clients"
+        [(selectedOption)]="selectedClient"
+        (selectedOptionChange)="onClientSelected($event)"
+        placeholder="Search and select client"
+        displayField="fullName"
+        valueField="id"
+        allowClear="true">
+      </app-dropdown-search>
+    </div>
 
     <!-- Items Section -->
     <div class="items-section">
       <ion-label class="section-label">Items</ion-label>
       
       <div class="add-item-controls">
-        <ion-select
-          [(ngModel)]="selectedItemId"
-          interface="popover"
-          placeholder="Select product/service"
+        <app-dropdown-search
+          #itemDropdown
+          [options]="items"
+          [(selectedOption)]="selectedItem"
+          (selectedOptionChange)="onItemSelected($event)"
+          placeholder="Search product/service"
+          displayField="name"
+          valueField="id"
+          allowClear="true"
           class="item-select">
-          @for (item of items; track item.id) {
-            <ion-select-option [value]="item.id">
-              {{ item.name }}
-            </ion-select-option>
-          }
-        </ion-select>
+        </app-dropdown-search>
         
         <ion-input
           [(ngModel)]="quantity"

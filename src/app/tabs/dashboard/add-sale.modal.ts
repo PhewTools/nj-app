@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonItem, IonLabel, IonInput, IonIcon, IonSelect, IonSelectOption, IonCard, IonCardContent, IonSearchbar } from '@ionic/angular/standalone';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonLabel, IonInput, IonIcon, IonCard, IonCardContent, IonSearchbar } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ModalController } from '@ionic/angular/standalone';
@@ -7,6 +7,7 @@ import { close, trash } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { ClientsService } from 'src/app/services/clients.service';
 import { ItemService } from 'src/app/services/item.service';
+import { DropdownSearchComponent } from 'src/app/components/dropdown-search/dropdown-search.component';
 
 interface SaleItemInput {
   id: string;
@@ -30,31 +31,31 @@ interface SaleItemInput {
     IonTitle,
     IonButton,
     IonContent,
-    IonItem,
     IonLabel,
     IonInput,
     IonIcon,
-    IonSelect,
-    IonSelectOption,
     IonCard,
     IonCardContent,
     FormsModule,
-    CommonModule
+    CommonModule,
+    DropdownSearchComponent
 ]
 })
 export class AddSaleModal implements OnInit {
-  
+
   private _clientsService: ClientsService = inject(ClientsService);
   private _itemService: ItemService = inject(ItemService);
 
+  @ViewChild('itemDropdown') itemDropdown!: DropdownSearchComponent;
+
   clients: any[] = [];
   items: any[] = [];
-  
-  selectedClientId: string = '';
-  selectedItemId: string = '';
+
+  selectedClient: any = null;
+  selectedItem: any = null;
   quantity: number = 1;
   discount: number = 0;
-  
+
   saleItems: SaleItemInput[] = [];
   total: number = 0;
 
@@ -63,7 +64,6 @@ export class AddSaleModal implements OnInit {
   }
 
   ngOnInit() {
-    // this.loadMockData();
     this.loadClients();
     this.loadItems();
   }
@@ -71,7 +71,10 @@ export class AddSaleModal implements OnInit {
   loadClients() {
     this._clientsService.getClients().subscribe({
       next: (clients) => {
-        this.clients = clients;
+        this.clients = clients.map(client => ({
+          ...client,
+          fullName: `${client.name} ${client.lastname}`
+        }));
       },
       error: (error) => {
         console.error('Error loading clients:', error);
@@ -90,6 +93,14 @@ export class AddSaleModal implements OnInit {
     });
   }
 
+  onClientSelected(client: any) {
+    this.selectedClient = client;
+  }
+
+  onItemSelected(item: any) {
+    this.selectedItem = item;
+  }
+
   getClientName(clientId: string): string {
     const client = this.clients.find(c => c.id === clientId);
     return client ? `${client.name} ${client.lastname}` : '';
@@ -101,12 +112,11 @@ export class AddSaleModal implements OnInit {
   }
 
   addItem() {
-    if (!this.selectedItemId || this.quantity <= 0) {
+    if (!this.selectedItem || this.quantity <= 0) {
       return;
     }
 
-    const item = this.items.find(i => i.id === this.selectedItemId);
-    if (!item) return;
+    const item = this.selectedItem;
 
     const saleItem: SaleItemInput = {
       id: item.id,
@@ -121,11 +131,16 @@ export class AddSaleModal implements OnInit {
 
     this.saleItems.push(saleItem);
     this.calculateTotal();
-    
+
     // Reset form
-    this.selectedItemId = '';
+    this.selectedItem = null;
     this.quantity = 1;
     this.discount = 0;
+
+    // Clear the dropdown search input
+    if (this.itemDropdown) {
+      this.itemDropdown.clearSelection();
+    }
   }
 
   removeItem(index: number) {
@@ -142,15 +157,12 @@ export class AddSaleModal implements OnInit {
   }
 
   completeSale() {
-    if (!this.selectedClientId || this.saleItems.length === 0) {
+    if (!this.selectedClient || this.saleItems.length === 0) {
       return;
     }
 
-    const client = this.clients.find(c => c.id === this.selectedClientId);
-    if (!client) return;
-
     const saleData = {
-      client_id: this.selectedClientId,
+      client_id: this.selectedClient.id,
       items: this.saleItems,
       total_cost: this.total
     };
