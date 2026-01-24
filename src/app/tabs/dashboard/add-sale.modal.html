@@ -8,7 +8,24 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <!-- Date Section -->
   <div class="modal-content">
+    <ion-label position="stacked">Date</ion-label>
+    <ion-datetime-button class="date-input" datetime="datetime"> </ion-datetime-button>
+    <!-- Date Modal -->
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime 
+          id="datetime" 
+          [(ngModel)]="date" 
+          presentation="date" 
+          type="date" placeholder="Date"
+          class="date-input">
+        </ion-datetime>
+      </ng-template>
+    </ion-modal>
+
+
     <!-- Client Section -->
     <div class="dropdown-wrapper">
       <ion-label position="stacked">Client</ion-label>
@@ -54,7 +71,7 @@
           class="quantity-input"
           min="0">
         </ion-input>
-        
+
         <ion-button (click)="addItem()" class="add-item-btn">
           Add
         </ion-button>
@@ -96,5 +113,6 @@
       </ion-button>
     </div>
   </div>
+
 </ion-content>
 

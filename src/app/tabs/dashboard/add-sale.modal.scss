@@ -63,6 +63,16 @@ ion-item {
   background: #f9f9f9;
 }
 
+.date-input {
+  width: 100%;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
 .add-item-btn {
   --background: #333;
   --color: white;

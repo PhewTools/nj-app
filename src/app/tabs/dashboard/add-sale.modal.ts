@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonLabel, IonInput, IonIcon, IonCard, IonCardContent, IonSearchbar } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonLabel, IonInput, IonIcon, IonCard, IonCardContent, IonDatetime, IonModal, IonDatetimeButton } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ModalController } from '@ionic/angular/standalone';
@@ -18,6 +18,7 @@ interface SaleItemInput {
   total: number;
   discount: number;
   description: string;
+  date?: Date;
 }
 
 @Component({
@@ -38,7 +39,10 @@ interface SaleItemInput {
     IonCardContent,
     FormsModule,
     CommonModule,
-    DropdownSearchComponent
+    DropdownSearchComponent,
+    IonDatetime,
+    IonModal,
+    IonDatetimeButton
 ]
 })
 export class AddSaleModal implements OnInit {
@@ -53,6 +57,7 @@ export class AddSaleModal implements OnInit {
 
   selectedClient: any = null;
   selectedItem: any = null;
+  date: string = new Date().toISOString().split('T')[0];
   quantity: number = 1;
   discount: number = 0;
 
@@ -126,7 +131,7 @@ export class AddSaleModal implements OnInit {
       quantity: this.quantity,
       cost: item.cost,
       discount: this.discount,
-      total: this.quantity * item.cost - (item.cost * this.quantity * this.discount / 100)
+      total: this.quantity * item.cost - (item.cost * this.quantity * this.discount / 100),
     };
 
     this.saleItems.push(saleItem);
@@ -164,7 +169,8 @@ export class AddSaleModal implements OnInit {
     const saleData = {
       client_id: this.selectedClient.id,
       items: this.saleItems,
-      total_cost: this.total
+      total_cost: this.total,
+      date: this.date
     };
 
     this.modalController.dismiss(saleData, 'confirm');
