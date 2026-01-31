@@ -41,8 +41,9 @@ export class DashboardPage implements OnInit {
 
   private _modalController: ModalController = inject(ModalController);
   private _router: Router = inject(Router);
+  private salesService: SalesService = inject(SalesService);
 
-  constructor(private salesService: SalesService) {
+  constructor() {
     addIcons({ addOutline, cashOutline, cartOutline, peopleOutline, cubeOutline });
   }
 

@@ -11,7 +11,19 @@
       placeholder="Select Month">
       @for (month of months; track month.value) {
         <ion-select-option [value]="month.value">
-          {{ month.label }} {{ selectedYear }}
+          {{ month.label }} 
+        </ion-select-option>
+      }
+    </ion-select>
+    <ion-select 
+      slot="end" 
+      [(ngModel)]="selectedYear" 
+      (ionChange)="onMonthYearChange()"
+      interface="popover"
+      placeholder="Select Month">
+      @for (year of years; track $index) {
+        <ion-select-option [value]="year">
+           {{ year }}
         </ion-select-option>
       }
     </ion-select>
