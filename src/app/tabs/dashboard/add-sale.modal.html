@@ -11,20 +11,21 @@
   <!-- Date Section -->
   <div class="modal-content">
     <ion-label position="stacked">Date</ion-label>
-    <ion-datetime-button class="date-input" datetime="datetime"> </ion-datetime-button>
+    @defer(){
+      <ion-datetime-button class="date-input" datetime="datetime"> </ion-datetime-button>
+    }
     <!-- Date Modal -->
-    <ion-modal [keepContentsMounted]="true">
-      <ng-template>
-        <ion-datetime 
-          id="datetime" 
-          [(ngModel)]="date" 
-          presentation="date" 
-          type="date" placeholder="Date"
-          class="date-input">
-        </ion-datetime>
-      </ng-template>
-    </ion-modal>
-
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+            <ion-datetime 
+              id="datetime" 
+              [(ngModel)]="date" 
+              presentation="date" 
+              type="date" placeholder="Date"
+              class="date-input">
+            </ion-datetime>
+        </ng-template>
+      </ion-modal>
 
     <!-- Client Section -->
     <div class="dropdown-wrapper">
